@@ -3,10 +3,36 @@
 -- Add any additional options here
 --
 
--- vim.scriptencoding = "utf-8"
--- vim.opt.encoding = "utf-8"
--- vim.opt.fileencoding = "utf-8"
 
+-- Disable LazyVim plugin load order checks (for override the dashboard)
+vim.g.lazyvim_check_order = false
+
+-- Enable automatic code formatting on save
+vim.g.autoformat = true
+
+-- Use the system clipboard for all yank, delete, change, and put operations
+-- (makes Vim share the same clipboard as macOS/Linux/Windows)
 vim.opt.clipboard = "unnamedplus"
 
+-- Configure LazyVim’s Rust integration to use rust-analyzer for diagnostics
+-- (default LSP engine for Rust, ensures proper error reporting & analysis)
 vim.g.lazyvim_rust_diagnostics = "rust-analyser"
+
+-- Disable swap files to avoid .swp recovery prompts
+vim.opt.swapfile = false
+
+-- Enable backup: keep a copy of the file before overwriting
+vim.opt.backup = true
+
+-- Write backup before overwriting the file (safer, avoids data loss if crash)
+vim.opt.writebackup = true
+
+-- Directory where backup files will be stored
+-- (using Neovim’s standard state path, usually ~/.local/state/nvim/backup)
+vim.opt.backupdir = vim.fn.stdpath("state") .. "/backup"
+
+-- Set cursor style to block in all the modes
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr-o:block"
+
+-- Disable highlighting of the word under the cursor
+vim.g.cursorword = false

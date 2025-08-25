@@ -10,11 +10,12 @@ return {
     opts = {
       highlight = {
         enable = true,
+        under_cursor = false,
         disable = { "verilog", "systemverilog" }, -- list of languages to disable highlighting for
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { "ruby" },
+        additional_vim_regex_highlighting = false,
       },
       -- enable syntax highlighting
       -- highlight = {

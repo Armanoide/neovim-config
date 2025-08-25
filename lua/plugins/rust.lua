@@ -58,7 +58,7 @@ return {
   {
     "mrcjkb/rustaceanvim",
     version = "^6", -- recommended
-    lazy = false,
+    ft = "rust",
     config = function()
       local manson_register = require("mason-registry")
       local codelldb = manson_register.get_package("codelldb")
@@ -72,9 +72,45 @@ return {
           adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
         },
         server = {
+          on_attach = function(client, bufnr)
+            local lsp_map = function(mode, keys, func, desc)
+              vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
+            end
+            -- rust-lsp mappings
+            lsp_map("n", "K", function()
+              vim.cmd.RustLsp { "hover", "actions" }
+            end, "Rust hover docs")
+            lsp_map("n", "J", function()
+              vim.cmd.RustLsp "joinLines"
+            end, "Rust join lines")
+            lsp_map("n", "<Leader>cw", "<Nop>", "Rust Commands")
+            lsp_map("n", "<Leader>cwa", function()
+              vim.cmd.RustLsp "codeAction"
+            end, "Rust Code action")
+            lsp_map("n", "<Leader>cwe", function()
+              vim.cmd.RustLsp "explainError"
+            end, "Rust error explain")
+            lsp_map("n", "<Leader>cwd", function()
+              vim.cmd.RustLsp "openDocs"
+            end, "Rust docs")
+            lsp_map("n", "<Leader>cwm", function()
+              vim.cmd.RustLsp "expandMacro"
+            end, "Rust expand macro")
+
+            -- copy from lsp_config
+            lsp_map("n", "gd", vim.lsp.buf.definition, "Goto definition")
+            lsp_map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
+            lsp_map("n", "gI", vim.lsp.buf.implementation, "Goto implementation")
+            lsp_map("n", "go", vim.lsp.buf.type_definition, "Goto type definition")
+            lsp_map("n", "gr", vim.lsp.buf.references, "Goto references")
+            lsp_map("n", "ra", vim.lsp.buf.rename, "Rename")
+          end,
           settings = {
+            cargo = {
+              allFeatures = true,
+            },
             ["rust-analyzer"] = {
-              diagnostics = { enable = false },
+              diagnostics = { enable = true },
             },
           },
         },
